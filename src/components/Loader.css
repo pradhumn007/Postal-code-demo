@@ -1,0 +1,15 @@
+.Loader {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  background-color: #1f2325b3;
+  z-index: 5;
+}
+
+.loader-icon {
+  position: absolute;
+  top: 50%;
+  color: white;
+  width: 75px !important;
+  height: 75px !important;
+}

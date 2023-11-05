@@ -1,25 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import PostalCode from "./components/PostalCode";
+import ShowData from "./components/ShowData";
+import CssBaseline from "@mui/material/CssBaseline";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import FetchData from "./api";
+import Loader from "./components/loader";
 
-function App() {
+const defaultTheme = createTheme();
+
+const App = () => {
+  const [places, setPlaces] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = (countryCode, postCode) => {
+    setIsLoading(true);
+    FetchData(countryCode, postCode).then((respData) => {
+      let tempPlaces = [];
+      setIsLoading(false);
+      if (respData && respData.places) {
+        if (Array.isArray(respData.places)) {
+          tempPlaces = respData.places.map((item) => {
+            return {
+              country: respData.country,
+              state: item.state,
+              place: item["place name"],
+            };
+          });
+        }
+      }
+      setPlaces(tempPlaces);
+    });
+  };
+  console.log(places);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {isLoading ? <Loader /> : null}
+      <ThemeProvider theme={defaultTheme}>
+        <Container component="main" maxWidth="s">
+          <CssBaseline />
+          <PostalCode onSubmit={handleSubmit} />
+          <ShowData places={places} />
+        </Container>
+      </ThemeProvider>
     </div>
   );
-}
+};
 
 export default App;
