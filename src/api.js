@@ -4,9 +4,7 @@ const FetchData = (countryCode, postCode) => {
   return axios({
     url: `https://api.zippopotam.us/${countryCode}/${postCode}`,
     method: "GET",
-  })
-    .then((res) => res.data)
-    .catch((err) => console.log(err));
+  }).then((res) => res.data);
 };
 
 export default FetchData;

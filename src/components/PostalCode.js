@@ -1,11 +1,11 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
-
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import Alert from "@mui/material/Alert";
 import { countryList } from "./countryList.data";
 
 const countries = countryList;
@@ -13,9 +13,25 @@ const countries = countryList;
 export default function PostalCode({ onSubmit, onClearData }) {
   const [postCode, setPostCode] = React.useState("");
   const [countryCode, setCountryCode] = React.useState("IN");
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  const errMessage = "Invalid Input : Postal code should not be empty";
+
+  function Validation() {
+    if (postCode.length === 0) {
+      throw "error";
+    }
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    onSubmit(countryCode, postCode);
+    try {
+      Validation();
+      onSubmit(countryCode, postCode);
+    } catch (error) {
+      setIsOpen(true);
+      setTimeout(() => setIsOpen(false), 1500);
+    }
   };
 
   const handlePostChange = (e) => {
@@ -29,6 +45,10 @@ export default function PostalCode({ onSubmit, onClearData }) {
     onClearData();
   };
 
+  const handleClose = (event, reason) => {
+    setIsOpen(false);
+  };
+
   return (
     <Box
       sx={{
@@ -38,6 +58,11 @@ export default function PostalCode({ onSubmit, onClearData }) {
         zIndex: "0",
       }}
     >
+      {isOpen ? (
+        <Alert severity="error" style={{ marginBottom: "1.5rem" }}>
+          {errMessage}
+        </Alert>
+      ) : null}
       <Typography component="h1" variant="h5">
         Enter Postal Code
       </Typography>

@@ -107,6 +107,7 @@ export default function ShowData({ places }) {
     <Box
       sx={{
         marginTop: 8,
+        marginBottom: 8,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
