@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./App.css";
 import PostalCode from "./components/PostalCode";
 import ShowData from "./components/ShowData";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -32,14 +33,18 @@ const App = () => {
       setPlaces(tempPlaces);
     });
   };
-  console.log(places);
+
+  const clearData = () => {
+    setPlaces([]);
+  };
+
   return (
-    <div>
+    <div className="external">
       {isLoading ? <Loader /> : null}
       <ThemeProvider theme={defaultTheme}>
         <Container component="main" maxWidth="s">
           <CssBaseline />
-          <PostalCode onSubmit={handleSubmit} />
+          <PostalCode onSubmit={handleSubmit} onClearData={clearData} />
           <ShowData places={places} />
         </Container>
       </ThemeProvider>

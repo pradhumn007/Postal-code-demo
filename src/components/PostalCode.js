@@ -8,13 +8,11 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { countryList } from "./countryList.data";
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
 const countries = countryList;
 
-export default function PostalCode({ onSubmit }) {
+export default function PostalCode({ onSubmit, onClearData }) {
   const [postCode, setPostCode] = React.useState("");
-  const [countryCode, setCountryCode] = React.useState("US");
+  const [countryCode, setCountryCode] = React.useState("IN");
   const handleSubmit = (event) => {
     event.preventDefault();
     onSubmit(countryCode, postCode);
@@ -25,6 +23,10 @@ export default function PostalCode({ onSubmit }) {
   };
   const handleCountryChange = (e) => {
     setCountryCode(e.target.value);
+  };
+
+  const handleDataClear = (e) => {
+    onClearData();
   };
 
   return (
@@ -73,6 +75,15 @@ export default function PostalCode({ onSubmit }) {
           sx={{ mt: 3, mb: 2 }}
         >
           Search
+        </Button>
+        <Button
+          type="button"
+          fullWidth
+          onClick={handleDataClear}
+          variant="contained"
+          sx={{ mt: 1, mb: 2 }}
+        >
+          Clear Data
         </Button>
       </Box>
     </Box>
